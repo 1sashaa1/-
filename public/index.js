@@ -99,8 +99,48 @@ window.addEventListener("DOMContentLoaded", function () {
     textField.value = newValue;
   });
   button_equals.addEventListener("click", function () {
-    textField.value += button_equals.textContent;
     //отправка текстового поля на сервер
+    myString = textField.value;
+    var re = /\s* \s*/;
+    var tagList = myString.split(re);
+    //alert(tagList);
+    console.log(tagList);
+
+    var quantity1 = 0;
+    var quantity2 = 0;
+    var number = [], operation = [];
+
+    var index1 = [], index2 = [], index3 = [], index4 = [];
+
+    for (i of tagList) {
+
+      if (i != "+" && i != "-" && i != "/" && i != "*" && i != "%") {
+        number[quantity1] = parseFloat(i);
+        quantity1++;
+      }
+      else if (i === "+" || i === "-" || i === "/" || i === "*" || i != "%") {
+        operation[quantity2] = i;
+        quantity2++;
+
+        var operation_res = operation.filter(function (element) {
+          return element !== "";
+        });
+      }
+    }
+    console.log(operation);
+    console.log(number);
+    var res = 0;
+    for (k of number) {
+      for (h of operation) {
+        if (res === 0) { res += k; break; }
+        if (h === "+") res += k;
+        else if (h === "-") res -= k;
+        else if (h === "*") res *= k;
+        else if (h === "/") res /= k;
+        else if (h === "%") res %= k;
+      }
+    }
+    textField.value = res;
   });
 
 });
